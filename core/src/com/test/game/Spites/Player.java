@@ -9,35 +9,34 @@ import com.test.game.Controlls.PlayerController;
 
 public class Player {
 
-    private static final int MOVEMENT = 200;
-
     private Vector3 position;
-    private Vector3 velocity;
+    private float velocity;
     private Texture playerImage;
-    private Rectangle rectanglePlayer;
+    private Rectangle boundsPlayer;
     private AnimationPlayer animationPlayer;
     private PlayerController playerController;
 
-    public Player(int x, int y, float velocity, String texture, PlayerController playerController){
-        position = new Vector3(x, y, 0);
-        this.velocity = new Vector3(velocity, velocity, 0);
-        playerImage = new Texture(texture);
-        animationPlayer = new AnimationPlayer(new TextureRegion(playerImage), 3, 0.5f);
-        rectanglePlayer = new Rectangle(x, y, playerImage.getWidth() / 4, playerImage.getHeight());
-        playerController = new PlayerController(this);
+    public Player(int x, int y, float velocity, String texture){
+        this.velocity = velocity;
+        this.playerImage = new Texture(texture);
+        this.animationPlayer = new AnimationPlayer(new TextureRegion(playerImage), 4, 0.5f);
+        this.boundsPlayer = new Rectangle(x / 2 - playerImage.getWidth() / 2,
+                                     y / 2 - playerImage.getHeight() / 2,
+                                     playerImage.getWidth() / 4,
+                                     playerImage.getHeight());
+        this.position = new Vector3(boundsPlayer.x, boundsPlayer.y, 0);
+        this.playerController = new PlayerController(this);
     }
 
     public void update(float dt){
         animationPlayer.update(dt);
-        velocity.scl(dt);
-        position.add(MOVEMENT * dt, velocity.y, 0);
 
-        if (position.)
+        playerController.setAdvanceController(dt);
 
     }
 
-    public Rectangle getRectanglePlayer() {
-        return rectanglePlayer;
+    public Rectangle getBoundsPlayer() {
+        return boundsPlayer;
     }
 
     public Vector3 getPosition() {
@@ -48,11 +47,11 @@ public class Player {
         this.position = position;
     }
 
-    public Vector3 getVelocity() {
+    public float getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(Vector3 velocity) {
+    public void setVelocity(float velocity) {
         this.velocity = velocity;
     }
 
